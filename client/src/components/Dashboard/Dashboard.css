@@ -1,0 +1,173 @@
+/* SCANNER ANIMATIONS */
+@keyframes scan-anim {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+@keyframes face-scan-anim {
+  0% { top: 20%; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 80%; opacity: 0; }
+}
+
+/* QR SCANNER UI */
+.scanner-box-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  border-radius: 2rem;
+  overflow: hidden;
+  background: #000;
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scan-window {
+  width: 200px;
+  height: 200px;
+  border: 2px solid #3b82f6;
+  border-radius: 1.5rem;
+  position: relative;
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+}
+
+.scan-laser {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #3b82f6;
+  box-shadow: 0 0 15px #3b82f6;
+  animation: scan-anim 2s linear infinite;
+}
+
+/* Dashboard.css */
+
+.face-scanner-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: #000; /* Camera load hone tak black dikhega */
+  border-radius: 2rem;
+  overflow: hidden;
+  display: flex; /* Centering fix */
+  align-items: center;
+  justify-content: center;
+}
+
+.face-scanner-wrap video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-cover: cover;
+  z-index: 5; /* Video piche rahega overlay ke */
+}
+
+.face-mask-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10; /* Overlay video ke upar rahega */
+  pointer-events: none; /* Isse video par click/touch block nahi hoga */
+  background: radial-gradient(
+    circle at 50% 45%,
+    transparent 120px,
+    rgba(15, 23, 42, 0.85) 121px
+  );
+}
+
+.face-guideline {
+  width: 240px;
+  height: 300px;
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 120px;
+  position: relative;
+  top: -20px;
+}
+
+.face-scan-line {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to bottom, transparent, #22c55e, transparent);
+  box-shadow: 0 0 20px #22c55e;
+  animation: face-scan-anim 2.5s ease-in-out infinite;
+  z-index: 25;
+}
+
+.fw-black { font-weight: 900 !important; }
+
+.hover-up {
+  transition: transform 0.3s ease;
+}
+
+.hover-up:hover {
+  transform: translateY(-8px);
+}
+
+.bg-primary-subtle { background-color: #eef2ff !important; }
+.bg-success-subtle { background-color: #f0fdf4 !important; }
+.bg-warning-subtle { background-color: #fffbeb !important; }
+
+.bg-white-10 {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.border-white-10 {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+:root {
+  --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+}
+
+.glass-card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.scan-container {
+  max-width: 450px; /* Full screen se chota kiya */
+  margin: 0 auto;
+  border: 4px solid #fff;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px #4f46e5; /* Scanner border effect */
+  position: relative;
+}
+
+.scan-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 2px solid rgba(79, 70, 229, 0.5);
+  background: linear-gradient(rgba(79, 70, 229, 0.1) 50%, transparent 50.5%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  animation: scan-move 2s infinite linear;
+}
+
+@keyframes scan-move {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+.profile-img-container {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-bottom: 15px;
+}
