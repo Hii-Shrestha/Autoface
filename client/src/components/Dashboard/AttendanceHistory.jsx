@@ -121,5 +121,4 @@ const AttendanceHistory = ({ user }) => {
     </div>
   );
 };
-
 export default AttendanceHistory;
