@@ -16,7 +16,7 @@ const Profile = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/auth/complete-teacher-profile', {
+      const response = await axios.post('https://autoface.onrender.com/api/auth/complete-teacher-profile', {
         department: dept,
         employeeId: user?.rollNumber,
       }, {

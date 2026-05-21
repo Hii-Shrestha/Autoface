@@ -23,7 +23,7 @@ const Settings = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:5000/api/auth/update-password', passData, {
+      await axios.put('https://autoface.onrender.com/api/auth/update-password', passData, {
         headers: { 'x-auth-token': token }
       });
       alert("Password updated! 🔐");
@@ -38,7 +38,7 @@ const Settings = () => {
     setSecurity(prev => ({ ...prev, [field]: newVal }));
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:5000/api/auth/update-security', { [field]: newVal }, {
+      await axios.put('https://autoface.onrender.com/api/auth/update-security', { [field]: newVal }, {
         headers: { 'x-auth-token': token }
       });
     } catch (err) { console.error("Failed to sync security setting"); }
@@ -75,7 +75,7 @@ const Settings = () => {
                   <button onClick={async () => {
                     setVerifying(true);
                     try {
-                      await axios.post('http://localhost:5000/api/auth/resend-verification', {}, {
+                      await axios.post('https://autoface.onrender.com/api/auth/resend-verification', {}, {
                         headers: { 'x-auth-token': localStorage.getItem('token') }
                       });
                       alert("Sent! 📧");

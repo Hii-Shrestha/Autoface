@@ -92,7 +92,7 @@ const ProfileSetup = () => {
           return;
         }
 
-        await axios.post('http://localhost:5000/api/auth/complete-profile', payload, {
+        await axios.post('https://autoface.onrender.com/api/auth/complete-profile', payload, {
           headers: { 
             'x-auth-token': token,
             'Content-Type': 'application/json'

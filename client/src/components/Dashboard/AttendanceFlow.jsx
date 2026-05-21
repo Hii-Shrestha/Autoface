@@ -117,7 +117,7 @@ const AttendanceFlow = ({ user }) => {
         descriptor: Array.from(detection.descriptor)
       };
 
-      await axios.post('http://localhost:5000/api/attendance/mark', attendanceData, { 
+      await axios.post('https://autoface.onrender.com/api/attendance/mark', attendanceData, { 
         headers: { 'x-auth-token': token } 
       });
 

@@ -29,7 +29,7 @@ const AttendanceReport = () => {
         });
       }
 
-      const res = await axios.get('http://localhost:5000/api/attendance/all-students', {
+      const res = await axios.get('https://autoface.onrender.com/api/attendance/all-students', {
         headers: { 'x-auth-token': token }
       });
       
@@ -64,7 +64,7 @@ const AttendanceReport = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/attendance/finalize', 
+      await axios.post('https://autoface.onrender.com/api/attendance/finalize', 
         { subject: teacher.subject }, 
         { headers: { 'x-auth-token': token } }
       );

@@ -47,7 +47,7 @@ const Login = () => {
   const handleGoogleResponse = useCallback(async (response) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/google', {
+      const res = await axios.post('https://autoface.onrender.com/api/auth/google', {
         token: response.credential,
         role: role 
       });

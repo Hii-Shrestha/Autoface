@@ -27,7 +27,7 @@ const SettingsTab = ({ user }) => {
     if (window.confirm("CRITICAL: Kya aap apna Face Data delete karna chahte hain? Dubara scan karna padega.")) {
       try {
         const token = localStorage.getItem('token');
-        await axios.post('http://localhost:5000/api/auth/delete-biometrics', {}, {
+        await axios.post('https://autoface.onrender.com/api/auth/delete-biometrics', {}, {
           headers: { 'x-auth-token': token }
         });
         alert("Face Encodings deleted from [travelCluster](https://cloud.mongodb.com/v2/68d6b728d05df0633868122f)");

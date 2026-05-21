@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     try {
-      const res = await axios.get('http://localhost:5000/api/auth/user', {
+      const res = await axios.get('https://autoface.onrender.com/api/auth/user', {
         headers: { 'x-auth-token': token }
       });
       
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     // ⚡ Login se pehle purana kachra saaf karo
     localStorage.clear(); 
     
-    const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+    const res = await axios.post('https://autoface.onrender.com/api/auth/login', { email, password });
     const { token, user } = res.data;
     
     localStorage.setItem('token', token);
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const res = await axios.get('http://localhost:5000/api/auth/user', {
+      const res = await axios.get('https://autoface.onrender.com/api/auth/user', {
         headers: { 'x-auth-token': token }
       });
       localStorage.setItem('user', JSON.stringify(res.data));

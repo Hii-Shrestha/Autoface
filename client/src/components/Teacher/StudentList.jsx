@@ -14,7 +14,7 @@ const StudentList = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/attendance/all-students', {
+      const res = await axios.get('https://autoface.onrender.com/api/attendance/all-students', {
         headers: { 'Authorization': `Bearer ${token}`, 'x-auth-token': token }
       });
       setStudents(res.data);
@@ -29,7 +29,7 @@ const StudentList = () => {
     if (!editingStudent) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.put(`http://localhost:5000/api/attendance/update-student/${editingStudent}`, editData, {
+      const res = await axios.put(`https://autoface.onrender.com/api/attendance/update-student/${editingStudent}`, editData, {
         headers: { 'Authorization': `Bearer ${token}`, 'x-auth-token': token }
       });
 
@@ -50,7 +50,7 @@ const StudentList = () => {
     if (window.confirm("Bhai, pakka delete karna hai? Ye data Atlas se hat jayega.")) {
       try {
         const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:5000/api/attendance/delete-student/${id}`, {
+        await axios.delete(`https://autoface.onrender.com/api/attendance/delete-student/${id}`, {
           headers: { 'x-auth-token': token }
         });
         setStudents(students.filter(s => s._id !== id));

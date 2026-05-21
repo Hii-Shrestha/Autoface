@@ -87,7 +87,7 @@ const handleFaceRegister = async () => {
         };
         
         const token = localStorage.getItem('token');
-        const response = await axios.post('http://localhost:5000/api/auth/complete-teacher-profile', payload, {
+        const response = await axios.post('https://autoface.onrender.com/api/auth/complete-teacher-profile', payload, {
           headers: { 'x-auth-token': token }
         });
 

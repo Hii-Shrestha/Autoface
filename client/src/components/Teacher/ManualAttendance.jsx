@@ -34,7 +34,7 @@ const ManualAttendance = () => {
     const fetchStudents = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/attendance/all-students', {
+        const res = await axios.get('https://autoface.onrender.com/api/attendance/all-students', {
           headers: { 'x-auth-token': token }
         });
         const onlyStudents = res.data.filter(u => u.role.trim() === 'student');
@@ -57,7 +57,7 @@ const ManualAttendance = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/attendance/bulk-mark', {
+      await axios.post('https://autoface.onrender.com/api/attendance/bulk-mark', {
         attendance: attendanceData,
         subject: selectedSubject,
         teacherId: teacher?.rollNumber

@@ -21,7 +21,7 @@ const Signup = () => {
 
     try {
       const { confirmPassword, ...signupData } = formData;
-      await axios.post('http://localhost:5000/api/auth/signup', signupData);
+      await axios.post('https://autoface.onrender.com/api/auth/signup', signupData);
       alert(`Account created successfully as ${formData.role.toUpperCase()}!`);
       navigate('/login');
     } catch (err) {
