@@ -3,39 +3,41 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-// 1. Config load karein
+// Load env variables
 dotenv.config();
 
 const app = express();
+
+// CORS
 app.use(cors({
-  origin: "https://autoface.vercel.app" ,
+  origin: "https://autoface.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
+// Body parser
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// Test Route
 app.get("/", (req, res) => {
   res.send("Server is running successfully");
 });
 
-// 2. Middlewares (Isme 50mb limit zaroori hai photo ke liye)
-
-app.use(express.json({ limit: '50mb' })); 
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
-// 3. Database Connection
+// Database Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ AutoFace DB Connected"))
   .catch(err => {
     console.log("❌ DB Error:", err.message);
   });
 
-// 4. Routes (Check karein file ka naam 'authRoutes.js' hi hai na?)
-// Agar error line 31 par hai, toh isi line mein issue hai
-app.use('/api/auth', require('./routes/authRoutes')); 
-app.use('/api/attendance', require('./routes/attendance'));
+// Routes
+app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/attendance', require('./routes/attendance'));
 
-// 5. Server Start
+// Server Start
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
