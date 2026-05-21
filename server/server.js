@@ -7,6 +7,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+app.get("/", (req, res) => {
+  res.send("Server is running successfully");
+});
 
 // 2. Middlewares (Isme 50mb limit zaroori hai photo ke liye)
 app.use(cors({
