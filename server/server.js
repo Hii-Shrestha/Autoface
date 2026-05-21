@@ -7,16 +7,17 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
+app.use(cors({
+  origin: "https://autoface.vercel.app" ,
+  credentials: true
+}));
 
 app.get("/", (req, res) => {
   res.send("Server is running successfully");
 });
 
 // 2. Middlewares (Isme 50mb limit zaroori hai photo ke liye)
-app.use(cors({
-  origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
-  credentials: true
-}));
+
 app.use(express.json({ limit: '50mb' })); 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
