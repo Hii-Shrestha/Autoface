@@ -64,17 +64,32 @@ const Dashboard = () => {
       {/* Main Content Area */}
       <main className="flex-grow-1 overflow-auto p-3 p-md-5">
         <div className="container-fluid p-0">
-          <div className="mb-5">
-            <h2 className="fw-black text-dark mb-1 tracking-tight text-capitalize">
-              Hello, {authState?.user?.name || 'Student'}! 👋
-            </h2>
-            <p className="text-muted fw-medium small mb-0">Portal Status: <span className="text-success font-bold">Secure</span></p>
+          <div className="mb-5 d-flex justify-content-between align-items-center">
+            <div>
+              {/* 💡 GOOGLE AUTH SE AAYA HUA NAME DISPLAY HO RHA HAI */}
+              <h2 className="fw-black text-dark mb-1 tracking-tight text-capitalize">
+                Hello, {authState?.user?.name || 'Student'}! 👋
+              </h2>
+              <p className="text-muted fw-medium small mb-0">Portal Status: <span className="text-success font-bold">Secure</span></p>
+            </div>
+            
+            {/* 💡 NAVBAR MAIN AVATAR ELEMENT (Google image ke liye check lagaya) */}
+            {authState?.user?.profileImage && (
+              <img 
+                src={authState.user.profileImage} 
+                alt="Google Profile" 
+                className="rounded-circle border border-2 border-white shadow-sm d-none d-md-block"
+                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+              />
+            )}
           </div>
 
           <div className="animate-in fade-in duration-500">
             {activeTab === 'overview' && <StatsOverview studentData={authState?.user} />}
             {activeTab === 'scan' && <AttendanceFlow user={authState?.user} />}
             {activeTab === 'history' && <AttendanceHistory user={authState?.user} />}
+            
+            {/* 💡 GOOGLE EMAIL, ROLL, DEPT DYNAMICALLY PASS HONGEY */}
             {activeTab === 'profile' && <StudentProfile user={authState?.user} />}
             
             {/* ⚡ Subject Matrix Tab - Ab ye alag file se load hoga */}

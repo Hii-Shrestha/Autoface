@@ -2,20 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as faceapi from 'face-api.js';
 import Webcam from 'react-webcam';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom'; // 💡 1. useLocation import kiya
-import { FiHash, FiBook, FiCalendar, FiArrowRight, FiCamera, FiCheckCircle, FiShield, FiUser, FiMail } from 'react-icons/fi';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FiUser, FiMail, FiHash, FiBook, FiCalendar, FiArrowRight, FiCamera, FiCheckCircle, FiShield } from 'react-icons/fi';
 
 const ProfileSetup = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
-  const location = useLocation(); // 💡 2. Routing state check karne ke liye
+  const location = useLocation();
 
-  // Google se aaya hua data fetch karein (agar available ho toh)
+  // Google authentication data pipeline
   const googleUser = location.state?.googleUser || null;
 
   const [details, setDetails] = useState({ 
-    name: googleUser ? googleUser.name : '', // 💡 3. Agar Google se hai to autofill hoga
-    email: googleUser ? googleUser.email : '', // 💡 4. Autofill Email
+    name: googleUser ? googleUser.name : '', 
+    email: googleUser ? googleUser.email : '', 
     roll: '', 
     dept: '', 
     year: '2024',
@@ -61,7 +61,7 @@ const ProfileSetup = () => {
       if (detection) {
         const { expressions, landmarks } = detection;
 
-        // Anti-Spoofing Checks
+        // Anti-Spoofing Validations
         if (expressions.neutral < 0.1 && expressions.happy < 0.1) {
           alert("Security Error: Live human face not detected! Please do not use photos.");
           setIsRegistering(false);
@@ -78,27 +78,23 @@ const ProfileSetup = () => {
           return;
         }
 
-        // 💡 5. Final Payload Setup (Google signup mein direct details DB mein save hongi)
         const payload = {
           name: details.name,
           email: details.email,
-          rollNumber: details.roll, // Make consistent with backend
-          department: details.dept, // Make consistent with backend
+          rollNumber: details.roll, 
+          department: details.dept, 
           year: details.year,
           semester: details.semester,
           descriptor: Array.from(detection.descriptor),
           profileImage: imageSrc,
-          password: googleUser ? `google_${Date.now()}` : undefined, // Google user ke liye random password
+          password: googleUser ? `google_${Date.now()}` : undefined, 
           isProfileComplete: true
         };
 
         const token = localStorage.getItem('token');
         
-        // 💡 6. Conditional Route Hit
-        // Agar Google User hai toh signup route par bhejenge, varna user update profile par
         if (googleUser) {
           const res = await axios.post('https://autoface.onrender.com/api/auth/signup', payload);
-          // Register hone ke baad backend agar token bhejta hai to use save karlo
           if(res.data.token) localStorage.setItem('token', res.data.token);
         } else {
           if (!token) {
@@ -161,7 +157,7 @@ const ProfileSetup = () => {
           {step === 1 ? (
             <div className="animate-in fade-in">
               
-              {/* 💡 7. Agar Google se nahi hai tabhi fields edit karne do, varna read-only show karo */}
+              {/* Profile Identity Dynamic Split row */}
               <div className="row g-3 mb-4">
                 <div className="col-md-6">
                   <label className="input-label">Full Name</label>
@@ -258,8 +254,49 @@ const ProfileSetup = () => {
           )}
         </div>
       </div>
-      
-      {/* Pura CSS style block same rahega... */}
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        .setup-wrapper { min-height: 100vh; background: #f8fafc; display: flex; align-items: center; justify-content: center; padding: 25px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .setup-glass-card { background: white; width: 100%; max-width: 950px; display: flex; border-radius: 40px; overflow: hidden; min-height: 600px; border: 1px solid #e2e8f0; }
+        
+        /* Sidebar Styles */
+        .setup-sidebar { width: 35%; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 50px; flex-direction: column; }
+        .step-box { display: flex; align-items: center; gap: 15px; color: rgba(255,255,255,0.4); transition: 0.4s; }
+        .step-box.active { color: white; transform: translateX(10px); }
+        .step-box.done { color: #4ade80; }
+        .icon-circle { width: 40px; height: 40px; border: 2px solid currentColor; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; }
+        .text-label { font-weight: 700; font-size: 0.95rem; }
+        .connector { width: 2px; height: 40px; background: rgba(255,255,255,0.1); margin: 5px 0 5px 19px; }
+        .fw-black { font-weight: 800; }
+
+        /* Main Content Styles */
+        .setup-main-content { width: 65%; padding: 60px; }
+        .accent-line { width: 50px; height: 5px; background: #2563eb; border-radius: 10px; margin-top: 10px; }
+        
+        .input-label { display: block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 8px; }
+        .input-with-icon { position: relative; }
+        .field-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #2563eb; }
+        .input-with-icon input, .input-with-icon select { width: 100%; padding: 15px 15px 15px 50px; border: 2px solid #f1f5f9; border-radius: 18px; outline: none; transition: 0.3s; background: #f8fafc; font-weight: 600; color: #1e293b; }
+        .input-with-icon input:focus, .input-with-icon select:focus { border-color: #2563eb; background: white; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1); }
+        .input-with-icon input:disabled { background: #e2e8f0; color: #64748b; cursor: not-allowed; border-color: #cbd5e1; }
+        
+        .btn-setup-action { background: #2563eb; color: white; border: none; padding: 18px; border-radius: 20px; font-weight: 800; transition: 0.3s; display: flex; align-items: center; justify-content: center; width: 100%; }
+        .btn-setup-action:hover { background: #1d4ed8; transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.2); }
+        .btn-setup-secondary { border: 2px solid #f1f5f9; background: white; padding: 0 30px; border-radius: 20px; font-weight: 700; color: #64748b; transition: 0.3s; }
+        .btn-setup-secondary:hover { background: #f8fafc; }
+
+        /* Camera Aesthetics */
+        .scanner-container { position: relative; width: 320px; height: 320px; border-radius: 40px; overflow: hidden; border: 6px solid #f1f5f9; }
+        .webcam-view { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+        .scan-overlay { position: absolute; inset: 0; border: 2px dashed rgba(37, 99, 235, 0.3); border-radius: 40px; margin: 20px; pointer-events: none; z-index: 5; }
+        .laser-line { position: absolute; width: 100%; height: 3px; background: #2563eb; z-index: 10; animation: scanMove 2.5s infinite; box-shadow: 0 0 20px #2563eb; }
+        .instruction-pill { display: inline-flex; align-items: center; background: #eff6ff; color: #2563eb; padding: 10px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; border: 1px solid #dbeafe; }
+
+        @keyframes scanMove { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+        @media (max-width: 992px) { .setup-sidebar { display: none !important; } .setup-main-content { width: 100%; padding: 40px; } }
+      `}</style>
     </div>
   );
 };
