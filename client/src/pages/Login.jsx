@@ -44,22 +44,35 @@ const Login = () => {
     }
   };
 
-  const handleGoogleResponse = useCallback(async (response) => {
+const handleGoogleResponse = useCallback(async (response) => {
     setLoading(true);
     try {
       const res = await axios.post('https://autoface.onrender.com/api/auth/google', {
         token: response.credential,
         role: role 
       });
-      await loginWithToken(res.data.token, res.data.user);
-      handleRoleRedirect(res.data.user);
+
+      // 💡 NEW LOGIC CHECK: Agar user naya hai
+      if (res.data.isNewUser) {
+        // Bina login kiye, seedhe setup-profile par bhejein aur data pass karein
+        navigate('/setup-profile', { 
+          state: { 
+            googleUser: res.data.user 
+          } 
+        });
+      } else {
+        // Agar user purana hai, toh normal login karwayein
+        await loginWithToken(res.data.token, res.data.user);
+        handleRoleRedirect(res.data.user);
+      }
+
     } catch (err) {
       alert("Google Login Failed");
     } finally {
       setLoading(false);
     }
   }, [loginWithToken, role, navigate]);
-
+  
   useEffect(() => {
     /* global google */
     const timer = setTimeout(() => {

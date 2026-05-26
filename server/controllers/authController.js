@@ -53,29 +53,34 @@ exports.login = async (req, res) => {
   }
 };
 
-// --- GOOGLE LOGIN LOGIC ---
+// --- GOOGLE LOGIN LOGIC (NO TEMPORARY DATA) ---
 exports.googleLogin = async (req, res) => {
   const { token, role } = req.body;
   try {
     const ticket = await client.verifyIdToken({
-      idToken: token, // 👈 'idToken' consistent rakho controller aur frontend ke beech
+      idToken: token, 
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     const { name, email, picture } = ticket.getPayload();
 
+    // 1. Check if the student already exists in the DB
     let student = await Student.findOne({ email });
 
+    // 2. IF THE USER IS NEW: Do not save to DB. Send data to frontend for setup-profile
     if (!student) {
-      student = new Student({
-        name,
-        email,
-        avatar: picture,
-        role: role || 'student',
-        password: `google_${Date.now()}`,
-        isProfileComplete: false,
+      return res.status(200).json({
+        isNewUser: true, // Signal for frontend to redirect
+        user: {
+          name,
+          email,
+          avatar: picture,
+          role: role || 'student'
+        }
       });
-      await student.save();
-    } else if (role && student.role !== role) {
+    }
+
+    // 3. IF THE USER EXISTS: Log them in normally and generate JWT
+    if (role && student.role !== role) {
       student.role = role;
       await student.save();
     }
@@ -88,6 +93,7 @@ exports.googleLogin = async (req, res) => {
 
     res.json({
       token: jwtToken,
+      isNewUser: false,
       user: {
         id: student._id,
         name: student.name,
