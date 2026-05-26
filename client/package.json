@@ -27,7 +27,7 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set COOP=unsafe-none &&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -48,6 +48,7 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+
     ]
   },
   "browser": {
