@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     }
     try {
       const res = await axios.get('https://autoface.onrender.com/api/auth/user', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'x-auth-token': token }
       });
       
       // 🛡️ Strict Check: Agar token aur user data match nahi karte toh clear karo
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     if (!token) return;
     try {
       const res = await axios.get('https://autoface.onrender.com/api/auth/user', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'x-auth-token': token }
       });
       localStorage.setItem('user', JSON.stringify(res.data));
       setAuthState(prev => ({ ...prev, user: res.data }));
