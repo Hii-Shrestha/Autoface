@@ -9,21 +9,14 @@ dotenv.config();
 const app = express();
 
 // CORS
-const allowedOrigins = [
-  'https://autoface.vercel.app',  
-  'http://localhost:3000'         
-];
 app.use(cors({
-  origin: function (origin, callback) {
-   
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: [
+    'http://localhost:3000',                  
+    'https://autoface-frontend.onrender.com'   
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
 }));
 
 app.use((req, res, next) => {
