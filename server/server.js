@@ -9,11 +9,23 @@ dotenv.config();
 const app = express();
 
 // CORS
+const allowedOrigins = [
+  'https://autoface.vercel.app',  
+  'http://localhost:3000'         
+];
 app.use(cors({
-  origin: "https://autoface.vercel.app",
+  origin: function (origin, callback) {
+   
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
   next();
