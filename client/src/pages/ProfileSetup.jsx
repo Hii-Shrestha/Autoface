@@ -102,8 +102,8 @@ const ProfileSetup = () => {
             navigate('/login');
             return;
           }
-          await axios.put('https://autoface.onrender.com/api/auth/complete-profile', payload, {
-            headers: { 'Authorization': `Bearer ${token}` }
+          await axios.post('https://autoface.onrender.com/api/auth/complete-profile', payload, {
+            headers: { 'x-auth-token': token }
           });
         }
         
