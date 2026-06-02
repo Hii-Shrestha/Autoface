@@ -81,8 +81,8 @@ const ProfileSetup = () => {
         const payload = {
           name: details.name,
           email: details.email,
-          rollNumber: details.roll, 
-          department: details.dept, 
+          roll: details.roll, 
+          dept: details.dept, 
           year: details.year,
           semester: details.semester,
           descriptor: Array.from(detection.descriptor),
@@ -103,7 +103,7 @@ const ProfileSetup = () => {
             return;
           }
           await axios.post('https://autoface.onrender.com/api/auth/complete-profile', payload, {
-            headers: { 'x-auth-token': token }
+            headers: { 'Authorization': `Bearer ${token}` }
           });
         }
         
